@@ -2,6 +2,7 @@ package com.example.monoGoblin.controller;
 
 import com.example.monoGoblin.dto.ApiResponse;
 import com.example.monoGoblin.dto.UserDto;
+import com.example.monoGoblin.dto.auth.LoginResponse;
 import com.example.monoGoblin.manager.UserManager;
 import com.example.monoGoblin.security.JWTService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,7 +17,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.util.Map;
 import java.util.UUID;
 
-@RequestMapping("/user")
+@RequestMapping("/api/v1/user")
 @RestController
 public class UserController {
 
@@ -29,21 +30,21 @@ public class UserController {
         this.jwtService = jwtService;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/register")
     public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody UserDto userdto) {
         this.userManager.register(userdto);
         return ResponseEntity.ok(ApiResponse.success(null, "success"));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<String>> login(@RequestBody Map<String, String> credentials) {
+    public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody Map<String, String> credentials) {
         String username = credentials.get("username");
         String password = credentials.get("password");
-        String token = this.userManager.login(username, password);
-        return ResponseEntity.ok(ApiResponse.success(token, "success"));
+        LoginResponse response = this.userManager.login(username, password);
+        return ResponseEntity.ok(ApiResponse.success(response, "success"));
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<ApiResponse<?>> delete() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String token = request.getHeader("Authorization").substring(7);

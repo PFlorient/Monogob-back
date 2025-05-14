@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/room")
+@RequestMapping("/api/v1/room")
 @RestController
 public class RoomController {
 

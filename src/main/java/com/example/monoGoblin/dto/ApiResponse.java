@@ -4,13 +4,11 @@ public class ApiResponse<T> {
     private T data;
     private String message;
     private boolean success;
-    private String token;
 
     public ApiResponse(T data, String message, boolean success) {
         this.data = data;
         this.message = message;
         this.success = success;
-        this.token = null;
     }
 
     public static <T> ApiResponse<T> success(T data, String message) {

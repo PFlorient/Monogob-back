@@ -1,6 +1,7 @@
 package com.example.monoGoblin.manager;
 
 import com.example.monoGoblin.dto.UserDto;
+import com.example.monoGoblin.dto.auth.LoginResponse;
 import com.example.monoGoblin.exception.UserNotFoundException;
 import com.example.monoGoblin.model.UserModel;
 import com.example.monoGoblin.model.UserPrincipal;
@@ -36,7 +37,7 @@ public class UserManager implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public String login(String username, String password) {
+    public LoginResponse login(String username, String password) {
         if (username == null || password == null) {
             throw new IllegalArgumentException("Nom d'utilisateur ou mot de passe manquant");
         }
@@ -47,7 +48,9 @@ public class UserManager implements UserDetailsService {
         UserModel user = userRepository.findByEmailOrUsername(username, username)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
 
-        return jwtService.generateToken(user.getUsername(), user.getId());
+        String token = jwtService.generateToken(user.getUsername(), user.getId());
+
+        return new LoginResponse(token, user.getUsername(), user.getEmail());
     }
 
     public void delete(UUID uuidUser) {

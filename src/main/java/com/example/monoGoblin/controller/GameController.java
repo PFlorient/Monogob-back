@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/game")
+@RequestMapping("/api/v1/game")
 @RestController
 public class GameController {
     private final GameManager gameManager;
