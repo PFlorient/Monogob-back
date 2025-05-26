@@ -25,12 +25,15 @@ public class RoomManager {
         return this.findRoomByUuid(roomUuid);
     }
 
-    public Room createRoom(UUID uuidUser) {
+    public Room createRoom(UUID uuidUser, String name) {
+
+        System.out.println(name);
         Room room = new Room();
         List<UUID> users = new ArrayList<>();
         users.add(uuidUser);
-        room.setAdministrator_id(uuidUser);
-        room.setUsers(users);
+        room.setName(name);
+        room.setAdministrator_uuid(uuidUser);
+        room.setUsers_uuid(users);
         roomRepository.save(room);
         return room;
     }
@@ -38,13 +41,13 @@ public class RoomManager {
     public Room joinRoom(UUID roomUuid, UUID uuidUser) {
         Room room = this.findRoomByUuid(roomUuid);
 
-        List<UUID> users = room.getUsers();
-        if (users == null) {
-            users = new ArrayList<>();
+        List<UUID> users_uuid = room.getUsers_uuid();
+        if (users_uuid == null) {
+            users_uuid = new ArrayList<>();
         }
 
-        users.add(uuidUser);
-        room.setUsers(users);
+        users_uuid.add(uuidUser);
+        room.setUsers_uuid(users_uuid);
         roomRepository.save(room);
 
         return room;
@@ -53,12 +56,12 @@ public class RoomManager {
     public Room leaveRoom(UUID roomUuid, UUID uuidUser) {
 
         Room room = this.findRoomByUuid(roomUuid);
-        List<UUID> users = room.getUsers();
+        List<UUID> users = room.getUsers_uuid();
         if (users == null) {
             users = new ArrayList<>();
         }
         users.remove(uuidUser);
-        room.setUsers(users);
+        room.setUsers_uuid(users);
         roomRepository.save(room);
         return room;
 

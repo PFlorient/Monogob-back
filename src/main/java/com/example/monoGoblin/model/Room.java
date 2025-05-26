@@ -11,14 +11,18 @@ import java.util.UUID;
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private UUID uuid;
+
 
     @Column(nullable = false)
-    private UUID administrator_id;
+    private String name;
+
+    @Column(nullable = false)
+    private UUID administrator_uuid;
 
     @ElementCollection
     @Column(nullable = false)
-    private List<UUID> users;
+    private List<UUID> users_uuid;
 
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
@@ -29,28 +33,36 @@ public class Room {
     @Column(columnDefinition = "boolean default false")
     private Boolean active;
 
-    public UUID getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setUuid(UUID id) {
+        this.uuid = id;
     }
 
-    public UUID getAdministrator_id() {
-        return administrator_id;
+    public String getName() {
+        return name;
     }
 
-    public void setAdministrator_id(UUID administrator_id) {
-        this.administrator_id = administrator_id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public List<UUID> getUsers() {
-        return users;
+    public UUID getAdministrator_uuid() {
+        return administrator_uuid;
     }
 
-    public void setUsers(List<UUID> users) {
-        this.users = users;
+    public void setAdministrator_uuid(UUID administrator_uuid) {
+        this.administrator_uuid = administrator_uuid;
+    }
+
+    public List<UUID> getUsers_uuid() {
+        return users_uuid;
+    }
+
+    public void setUsers_uuid(List<UUID> users) {
+        this.users_uuid = users;
     }
 
     public Date getCreated_at() {

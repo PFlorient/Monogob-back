@@ -1,16 +1,14 @@
 package com.example.monoGoblin.controller;
 
 import com.example.monoGoblin.dto.ApiResponse;
+import com.example.monoGoblin.dto.room.CreateRoomDto;
 import com.example.monoGoblin.manager.RoomManager;
 import com.example.monoGoblin.model.Room;
 import com.example.monoGoblin.security.AuthContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -40,11 +38,11 @@ public class RoomController {
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(room, "Room list"));
     }
 
-    @GetMapping("/create")
-    public ResponseEntity<ApiResponse<Room>> createRoom() {
+    @PostMapping("/create")
+    public ResponseEntity<ApiResponse<Room>> createRoom(@RequestBody CreateRoomDto request) {
         UUID userUuid = authContext.getAuthenticatedUser();
-
-        Room room = roomManager.createRoom(userUuid);
+        String roomName = request.getName();
+        Room room = roomManager.createRoom(userUuid, roomName);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(room, "success"));
     }
 

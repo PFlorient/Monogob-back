@@ -44,6 +44,7 @@ public class UserManager implements UserDetailsService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password)
         );
+        
 
         UserModel user = userRepository.findByEmailOrUsername(username, username)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));

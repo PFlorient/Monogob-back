@@ -37,7 +37,7 @@ public class JWTService {
                 .add(claims)
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 30 * 100))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 30))
                 .and()
                 .signWith(getKey())
                 .compact();
@@ -59,7 +59,8 @@ public class JWTService {
     }
 
     public UUID extractUserUuid(String jwtToken) {
-        return extractAllClaims(jwtToken).get("uuid", UUID.class);
+        String uuidString = extractAllClaims(jwtToken).get("uuid", String.class);
+        return UUID.fromString(uuidString);
     }
 
     private <T> T extractClaim(String jwtToken, Function<Claims, T> claimsResolver) {
