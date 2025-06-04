@@ -12,6 +12,6 @@ import org.hibernate.type.SqlTypes;
 public class CharacterCard extends Card {
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "json")
     private Effect effect;
 }
