@@ -13,16 +13,19 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
 
-
     @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
     private UUID administrator_uuid;
 
-    @ElementCollection
-    @Column(nullable = false)
-    private List<UUID> users_uuid;
+    @ManyToMany
+    @JoinTable(
+            name = "room_users",
+            joinColumns = @JoinColumn(name = "room_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<UserModel> users;
 
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
@@ -33,12 +36,14 @@ public class Room {
     @Column(columnDefinition = "boolean default false")
     private Boolean active;
 
+    // --- Getters & Setters ---
+
     public UUID getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID id) {
-        this.uuid = id;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getName() {
@@ -57,12 +62,12 @@ public class Room {
         this.administrator_uuid = administrator_uuid;
     }
 
-    public List<UUID> getUsers_uuid() {
-        return users_uuid;
+    public List<UserModel> getUsers() {
+        return users;
     }
 
-    public void setUsers_uuid(List<UUID> users) {
-        this.users_uuid = users;
+    public void setUsers(List<UserModel> users) {
+        this.users = users;
     }
 
     public Date getCreated_at() {

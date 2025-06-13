@@ -1,5 +1,7 @@
 package com.example.monoGoblin.dto.auth;
 
-public record LoginResponse(String token, String username, String email) {
+import java.util.UUID;
+
+public record LoginResponse(String token, String username, String email, UUID uuid) {
 }
 

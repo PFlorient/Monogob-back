@@ -2,6 +2,7 @@ package com.example.monoGoblin.controller;
 
 import com.example.monoGoblin.dto.ApiResponse;
 import com.example.monoGoblin.dto.room.CreateRoomDto;
+import com.example.monoGoblin.dto.room.InformationRoomDTO;
 import com.example.monoGoblin.manager.RoomManager;
 import com.example.monoGoblin.model.Room;
 import com.example.monoGoblin.security.AuthContext;
@@ -33,36 +34,36 @@ public class RoomController {
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<ApiResponse<Room>> getRoom(@PathVariable UUID uuid) {
-        Room room = roomManager.getRoom(uuid);
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(room, "Room list"));
+    public ResponseEntity<ApiResponse<InformationRoomDTO>> getRoom(@PathVariable UUID uuid) {
+        InformationRoomDTO InformationRoom = roomManager.getRoom(uuid);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(InformationRoom, "Room list"));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ApiResponse<Room>> createRoom(@RequestBody CreateRoomDto request) {
+    public ResponseEntity<ApiResponse<InformationRoomDTO>> createRoom(@RequestBody CreateRoomDto request) {
         UUID userUuid = authContext.getAuthenticatedUser();
         String roomName = request.getName();
-        Room room = roomManager.createRoom(userUuid, roomName);
+        InformationRoomDTO room = roomManager.createRoom(userUuid, roomName);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(room, "success"));
     }
 
-    @GetMapping("/{uuid}/join")
-    public ResponseEntity<ApiResponse<Room>> joinRoom(@PathVariable UUID uuid) {
+    @GetMapping("/join/{uuid}")
+    public ResponseEntity<ApiResponse<InformationRoomDTO>> joinRoom(@PathVariable UUID uuid) {
         UUID userUuid = authContext.getAuthenticatedUser();
 
-        Room roomJoined = roomManager.joinRoom(uuid, userUuid);
+        InformationRoomDTO roomJoined = roomManager.joinRoom(uuid, userUuid);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(roomJoined, "Room Joined"));
     }
 
-    @GetMapping("/{uuid}/leave")
-    public ResponseEntity<ApiResponse<Room>> leaveRoom(@PathVariable UUID uuid) {
+    @GetMapping("/leave/{uuid}")
+    public ResponseEntity<ApiResponse<InformationRoomDTO>> leaveRoom(@PathVariable UUID uuid) {
         UUID userUuid = authContext.getAuthenticatedUser();
 
-        Room roomLeaved = roomManager.leaveRoom(uuid, userUuid);
+        InformationRoomDTO roomLeaved = roomManager.leaveRoom(uuid, userUuid);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(roomLeaved, "Room Leaved"));
     }
 
-    @GetMapping("/{uuid}/close")
+    @GetMapping("/close/{uuid}")
     public ResponseEntity<ApiResponse<?>> closeRoom(@PathVariable UUID uuid) {
         roomManager.closeRoom(uuid);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(null, "Room closed"));

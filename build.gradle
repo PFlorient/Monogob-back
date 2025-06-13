@@ -25,6 +25,7 @@ dependencies {
     implementation 'com.vladmihalcea:hibernate-types-60:2.21.1'
     implementation 'org.hibernate.orm:hibernate-core:6.4.4.Final'
     implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    implementation 'com.corundumstudio.socketio:netty-socketio:2.0.1'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
     implementation 'com.mysql:mysql-connector-j'

@@ -44,14 +44,13 @@ public class UserManager implements UserDetailsService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password)
         );
-        
 
         UserModel user = userRepository.findByEmailOrUsername(username, username)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
 
         String token = jwtService.generateToken(user.getUsername(), user.getId());
 
-        return new LoginResponse(token, user.getUsername(), user.getEmail());
+        return new LoginResponse(token, user.getUsername(), user.getEmail(), user.getId());
     }
 
     public void delete(UUID uuidUser) {
